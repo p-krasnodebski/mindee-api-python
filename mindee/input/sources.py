@@ -4,7 +4,7 @@ import mimetypes
 import os
 from typing import BinaryIO, Optional, Sequence, Tuple
 
-import pikepdf
+# import pikepdf
 
 from mindee.input.page_options import KEEP_ONLY, REMOVE
 from mindee.logger import logger
@@ -66,14 +66,15 @@ class InputSource:
         return self.file_mimetype == "application/pdf"
 
     def count_doc_pages(self) -> int:
-        """
-        Count the pages in the PDF.
+        pass
+#         """
+#         Count the pages in the PDF.
 
-        :return: the number of pages.
-        """
-        self.file_object.seek(0)
-        with pikepdf.open(self.file_object) as pdf:
-            return len(pdf.pages)
+#         :return: the number of pages.
+#         """
+#         self.file_object.seek(0)
+#         with pikepdf.open(self.file_object) as pdf:
+#             return len(pdf.pages)
 
     def process_pdf(
         self,
@@ -111,47 +112,50 @@ class InputSource:
         self.merge_pdf_pages(pages_to_keep)
 
     def merge_pdf_pages(self, page_numbers: set) -> None:
-        """
-        Create a new PDF from pages and set it to ``file_object``.
+        pass
+#         """
+#         Create a new PDF from pages and set it to ``file_object``.
 
-        :param page_numbers: List of pages number to use for merging in the original PDF.
-        :return: None
-        """
-        self.file_object.seek(0)
-        new_pdf = pikepdf.Pdf.new()
-        with pikepdf.open(self.file_object) as pdf:
-            for page_n in page_numbers:
-                page = pdf.pages[page_n]
-                new_pdf.pages.append(page)
-        self.file_object.close()
-        self.file_object = io.BytesIO()
-        new_pdf.save(self.file_object)
+#         :param page_numbers: List of pages number to use for merging in the original PDF.
+#         :return: None
+#         """
+#         self.file_object.seek(0)
+#         new_pdf = pikepdf.Pdf.new()
+#         with pikepdf.open(self.file_object) as pdf:
+#             for page_n in page_numbers:
+#                 page = pdf.pages[page_n]
+#                 new_pdf.pages.append(page)
+#         self.file_object.close()
+#         self.file_object = io.BytesIO()
+#         new_pdf.save(self.file_object)
 
     def is_pdf_empty(self) -> bool:
-        """
-        Check if the PDF is empty.
+        pass
+    
+#         """
+#         Check if the PDF is empty.
 
-        :return: ``True`` if the PDF is empty
-        """
-        self.file_object.seek(0)
-        with pikepdf.open(self.file_object) as pdf:
-            for page in pdf.pages:
-                # mypy incorrectly identifies the "/Length" key's value as
-                # an object rather than an int.
-                try:
-                    total_size = page["/Contents"]["/Length"]
-                except ValueError:
-                    total_size = 0  # type: ignore
-                    for content in page["/Contents"]:  # type: ignore
-                        total_size += content["/Length"]
-                has_data = total_size > 1000  # type: ignore
+#         :return: ``True`` if the PDF is empty
+#         """
+#         self.file_object.seek(0)
+#         with pikepdf.open(self.file_object) as pdf:
+#             for page in pdf.pages:
+#                 # mypy incorrectly identifies the "/Length" key's value as
+#                 # an object rather than an int.
+#                 try:
+#                     total_size = page["/Contents"]["/Length"]
+#                 except ValueError:
+#                     total_size = 0  # type: ignore
+#                     for content in page["/Contents"]:  # type: ignore
+#                         total_size += content["/Length"]
+#                 has_data = total_size > 1000  # type: ignore
 
-                has_font = "/Font" in page["/Resources"].keys()
-                has_xobj = "/XObject" in page["/Resources"].keys()
+#                 has_font = "/Font" in page["/Resources"].keys()
+#                 has_xobj = "/XObject" in page["/Resources"].keys()
 
-                if has_font or has_xobj or has_data:
-                    return False
-            return True
+#                 if has_font or has_xobj or has_data:
+#                     return False
+#             return True
 
     def read_contents(self, close_file: bool) -> Tuple[str, bytes]:
         """
