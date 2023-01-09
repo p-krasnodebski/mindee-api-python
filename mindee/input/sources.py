@@ -66,7 +66,7 @@ class InputSource:
         return self.file_mimetype == "application/pdf"
 
     def count_doc_pages(self) -> int:
-        pass
+        return 0
 #         """
 #         Count the pages in the PDF.
 
@@ -130,7 +130,8 @@ class InputSource:
 #         new_pdf.save(self.file_object)
 
     def is_pdf_empty(self) -> bool:
-        pass
+        return True
+        
     
 #         """
 #         Check if the PDF is empty.
